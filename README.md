@@ -1,2 +1,2 @@
 # server
-Flask webserver to serve data from database to frontend.
+Flask webserver to serve data from database to frontend in json format.
