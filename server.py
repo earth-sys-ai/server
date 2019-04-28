@@ -20,7 +20,8 @@ def display():
     clr = request.args.get('clr')
     red = request.args.get('red')
     lis = request.args.get('lis')
-    
+    rad = request.args.get('rad')
+
     if (red == "true"):
         return getData(lat, lng)
     
@@ -29,7 +30,7 @@ def display():
         return ""
 
     elif (lis == "true"):
-        return listData()
+        return listData(lat, lng, rad)
 
     elif(add != ""):
         addData(lat, lng, add)
