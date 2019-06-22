@@ -36,7 +36,7 @@ levels: array       // array of level numbers cached
 **getData**   
 This command returns the cached data with a given amount of levels.   
 A `level` parameter is needed to specify which level cache to return.
-The response is the same as that from the output of the [datacacher](https://github.com/earth-sys-ai/datacacher#api)
+The response is the same as that from the output of the [datacacher](https://github.com/earth-sys-ai/datacacher#api).
 
 <br>
 
