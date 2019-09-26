@@ -1,8 +1,10 @@
+# import web and transection requirements
 from flask import Flask
 from flask import request
 from flask import render_template
 from flask_cors import CORS
 from os import listdir
+from transect import transect
 import json
 import sys
 
@@ -29,8 +31,14 @@ def display():
             "levelCount": len(data),
             "levels": levels
         })
+
+    # dump data from given level
     elif (com == "getData"):
         response = json.dumps(data[levels.index(level)])
+
+    # polygonal transection
+    elif (com == "transect"):
+        response = transect(data[levels.index(level)], request.args.get('line'))
 
     # return as json
     return app.response_class(
