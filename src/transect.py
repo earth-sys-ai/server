@@ -11,8 +11,7 @@ def transect(data, line):
     # define output array
         outVals = []
 
-    # loop throgh line points
-
+    # loop through line points
         for i in parseLine(line):
                 outVals.append(getValue(data, i))
 
@@ -21,7 +20,6 @@ def transect(data, line):
 
 # get value at point in date
 def getValue(data, point):
-
 
     # loop through polygons
     for level in data["levels"]:
@@ -75,5 +73,5 @@ def parseArr(arr):
         return json.dumps({
                 "count": len(arr),
                 "values": arr
-                })
+        })
 

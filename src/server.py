@@ -25,20 +25,29 @@ def display():
         "error": "Invalid command!"
     })
 
-    # list level information
-    if (com == "listLevels"):
+    # check for 500 
+    try:
+        
+        # list level information
+        if (com == "listLevels"):
+            response = json.dumps({
+                "levelCount": len(data),
+                "levels": levels
+            })
+
+        # dump data from given level
+        elif (com == "getData"):
+            response = json.dumps(data[levels.index(level)])
+
+        # polygonal transection
+        elif (com == "transect"):
+            response = transect(data[levels.index(level)], request.args.get('line'))
+
+    # alert
+    except:
         response = json.dumps({
-            "levelCount": len(data),
-            "levels": levels
+            "error": "Error in computation!"
         })
-
-    # dump data from given level
-    elif (com == "getData"):
-        response = json.dumps(data[levels.index(level)])
-
-    # polygonal transection
-    elif (com == "transect"):
-        response = transect(data[levels.index(level)], request.args.get('line'))
 
     # return as json
     return app.response_class(
