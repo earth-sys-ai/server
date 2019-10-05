@@ -6,13 +6,7 @@ def transect(data, line):
 
      # test
      # curl "http://0.0.0.0:5000?com=transect&level=5&line=(25.637675852300642,-81.67236328125001)"
-
-
-
-
-
-     #print(getValue(data, parseLine(line)[0]))
-
+     # print(getValue(data, parseLine(line)[0]))
 
     # define output array
         outVals = []
@@ -21,7 +15,6 @@ def transect(data, line):
 
         for i in parseLine(line):
                 outVals.append(getValue(data, i))
-
 
     # return array
         return parseArr(outVals)
@@ -35,10 +28,8 @@ def getValue(data, point):
         for poly in level["polygons"]:
                 minV = poly["minV"]
                 maxV = poly["maxV"]
-                if (point[0] >= minV[0] and point[1] >= minV[1] and 
-                point[0] <= maxV[0] and point[1] <= maxV[1]):
-                        if polyContains(poly["vertices"], point):
-                                return level["value"]
+                if polyContains(poly["vertices"], point):
+                        return level["value"]
 
     # if contains point, return value of containing layer
 
@@ -65,8 +56,8 @@ def polyContains(poly, point):
         # get adjacent points
         j1 = poly[(i - 1) % len(poly)] 
         j2 = poly[i % len(poly)]
-        t1 = (j1["lat"], j1["lng"])
-        t2 = (j2["lat"], j2["lng"])
+        t1 = (j1["lng"], j1["lat"])
+        t2 = (j2["lng"], j2["lat"])
         
         # check if ray collides with line
         if ((t1[1] >= point[1] and t2[1] <= point[1] or
@@ -77,13 +68,12 @@ def polyContains(poly, point):
             tally += 1
 
     # check if even amount of collitions
-    print(tally)
     return (tally % 2 != 0 and tally > 0)
 
-# parse arry of points into line string
+# parse array of points into json response
 def parseArr(arr):
-        out = ""
-        for i in arr:
-                out += "(" + i[0] + "," + i[1] + ")"
-        return out
+        return json.dumps({
+                "count": len(arr),
+                "values": arr
+                })
 
