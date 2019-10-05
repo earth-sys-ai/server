@@ -21,15 +21,19 @@ def transect(data, line):
 # get value at point in date
 def getValue(data, point):
 
+    # init response
+    out = ""
+
     # loop through polygons
     for level in data["levels"]:
         for poly in level["polygons"]:
-                minV = poly["minV"]
-                maxV = poly["maxV"]
-                if polyContains(poly["vertices"], point):
-                        return level["value"]
 
-    # if contains point, return value of containing layer
+                # point in polygon                
+                if polyContains(poly["vertices"], point):
+                        out = level["value"]
+    
+    # return top polygon
+    return out
 
 # query parameter to coordinate array
 def parseLine(txt):
