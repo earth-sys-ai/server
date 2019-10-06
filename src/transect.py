@@ -18,19 +18,13 @@ def transect(data, line):
 # get value at point in date
 def getValue(data, point):
 
-    # init response
-    out = ""
+    # loop through polygons from last added
+    for level in reversed(data["levels"]):
+        for poly in reversed(level["polygons"]):
 
-    # loop through polygons
-    for level in data["levels"]:
-        for poly in level["polygons"]:
                 # get boundaries of polygon
                 minV = poly["minV"]
                 maxV = poly["maxV"]
-
-                # print(minV)
-                # print(maxV)
-                # print(point)
 
                 # check if point is in polygon's domain / range
                 if (point[0] >= minV[0] and point[0] <= maxV[0] and
@@ -38,7 +32,7 @@ def getValue(data, point):
 
                         # point in polygon (13.21)               
                         if polyContains(poly["vertices"], point):
-                                out = level["value"]
+                                return level["value"]
         
     # return top polygon
     return out
