@@ -4,10 +4,6 @@ import json
 # create array of values through data
 def transect(data, line):
 
-     # test
-     # curl "http://0.0.0.0:5000?com=transect&level=5&line=(25.637675852300642,-81.67236328125001)"
-     # print(getValue(data, parseLine(line)[0]))
-
     # define output array
         outVals = []
 
@@ -18,6 +14,7 @@ def transect(data, line):
     # return array
         return parseArr(outVals)
 
+
 # get value at point in date
 def getValue(data, point):
 
@@ -27,13 +24,25 @@ def getValue(data, point):
     # loop through polygons
     for level in data["levels"]:
         for poly in level["polygons"]:
+                # get boundaries of polygon
+                minV = poly["minV"]
+                maxV = poly["maxV"]
 
-                # point in polygon                
-                if polyContains(poly["vertices"], point):
-                        out = level["value"]
-    
+                # print(minV)
+                # print(maxV)
+                # print(point)
+
+                # check if point is in polygon's domain / range
+                if (point[0] >= minV[0] and point[0] <= maxV[0] and
+                    point[1] >= minV[1] and point[1] <= point[1]):
+
+                        # point in polygon (13.21)               
+                        if polyContains(poly["vertices"], point):
+                                out = level["value"]
+        
     # return top polygon
     return out
+
 
 # query parameter to coordinate array
 def parseLine(txt):
@@ -58,8 +67,8 @@ def polyContains(poly, point):
         # get adjacent points
         j1 = poly[(i - 1) % len(poly)] 
         j2 = poly[i % len(poly)]
-        t1 = (j1["lng"], j1["lat"])
-        t2 = (j2["lng"], j2["lat"])
+        t1 = (j1["lat"], j1["lng"])
+        t2 = (j2["lat"], j2["lng"])
         
         # check if ray collides with line
         if ((t1[1] >= point[1] and t2[1] <= point[1] or
@@ -71,6 +80,7 @@ def polyContains(poly, point):
 
     # check if even amount of collitions
     return (tally % 2 != 0 and tally > 0)
+
 
 # parse array of points into json response
 def parseArr(arr):
